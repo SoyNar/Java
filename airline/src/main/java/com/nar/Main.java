@@ -2,15 +2,29 @@ package com.nar;
 import com.nar.Controller.AirFlightController;
 import com.nar.Controller.AirplaneController;
 import com.nar.Controller.ReservationController;
+import com.nar.Controller.TravelerController;
 import com.nar.Entity.AirFlights;
 import com.nar.Entity.Airplane;
 import com.nar.Entity.Reservation;
+import com.nar.Entity.Traveler;
+
 import javax.swing.*;
 import java.text.ParseException;
 
 
 
 public class Main {
+
+
+    public static void travelerMenu(){
+        System.out.println("""
+                1. create traveler
+                2. List traveler
+                3. Update traveler
+                4. delete travaler
+                5. exit
+                """);
+    }
 
 
     public static void reservationMenu(){
@@ -33,6 +47,34 @@ public class Main {
     }
 
 
+    public static void traveler(){
+        TravelerController travelerController = new TravelerController();
+        int opcion;
+        do{
+            travelerMenu();
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(" insert option"));
+            switch (opcion){
+                case 1:
+                    String nameTraveler = JOptionPane.showInputDialog("inert name traveler");
+                    String lastName = JOptionPane.showInputDialog("insert Last name traveler");
+                    int cc = Integer.parseInt(JOptionPane.showInputDialog("insert cc traveler"));
+                    Traveler traveler = new Traveler(nameTraveler,lastName,cc);
+                    travelerController.create(traveler);
+                    break;
+                case 2:
+                    travelerController.read();
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                default:
+                    break;
+            }
+        }while(opcion!=5);
+    }
 
     public static void airfligths() throws ParseException {
 
@@ -196,6 +238,7 @@ AirFlightController airFlightController = new AirFlightController();
                     airfligths();
                     break;
                 case 4:
+                    traveler();
                     break;
                 case 5:
                     break;

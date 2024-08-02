@@ -155,7 +155,7 @@ public class AirplaneModel implements IAirplaneModel {
             ps.setInt(1,id);
             resultSet = ps.executeQuery();
             System.out.println("Found");
-            return resultSet.first();
+            return resultSet.next();
         }catch (SQLException e){
             System.out.println("no found id" + e.getMessage());
         }finally{
