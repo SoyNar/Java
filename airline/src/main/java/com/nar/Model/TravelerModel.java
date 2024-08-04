@@ -4,6 +4,7 @@ import com.nar.Entity.Traveler;
 import com.nar.Persistence.Conexion.Conexion;
 import com.nar.Persistence.IModel.ITraveler;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +49,31 @@ public class TravelerModel implements ITraveler {
     }
 
     @Override
-    public void delete(Integer integer) {
+    public void delete(Integer id) {
+        PreparedStatement ps;
+        Connection connection = Conexion.getConnection();
+        String query = "DELETE FROM traveler WHERE id= ?";
+
+        try{
+            ps = connection.prepareStatement(query);
+            ps.setInt(1,id);
+            int delete = ps.executeUpdate();
+            if(delete > 0){
+                System.out.println("deleted");
+            }else{
+                System.out.println( " id no found ");
+            }
+
+        }catch ( SQLException e){
+            System.out.println(" Error to delete id " + e.getMessage());
+        }
+        finally {
+            try{
+                Conexion.closeConnection();
+            }catch (Exception e){
+                System.out.println(" error to close connection ");
+            }
+        }
 
     }
 
@@ -73,13 +98,13 @@ public class TravelerModel implements ITraveler {
             ps.close();
 
         }catch (SQLException e){
-            System.out.println(" error to read travlers" + e.getMessage());
+            System.out.println(" error to read traveler" + e.getMessage());
         }
         finally {
             try{
                 Conexion.closeConnection();
             }catch (Exception e){
-                System.out.println(" error closed connection " +e.getMessage());
+                System.out.println("error closed connection " +e.getMessage());
             }
         }
         return listTraveler;
@@ -87,26 +112,44 @@ public class TravelerModel implements ITraveler {
 
     @Override
     public boolean update(Traveler object) {
-        boolean foundID = foundById(object.getId());
+        Connection connection ;
+        connection = Conexion.getConnection();
+        PreparedStatement ps;
+        String query = "UPDATE traveler SET name = ? , lastName = ? WHERE id = ?";
 
+        try {
+                ps = connection.prepareStatement(query);
+                ps.setString(1, object.getName());
+                ps.setString(2, object.getLastName());
+                ps.setInt(3,object.getId());
 
-        boolean idFound = foundById(object.getId());
-        return false;
+                int update = ps.executeUpdate();
+                return update > 0;
+
+            }catch (SQLException e){
+                System.out.println(" error to update travelet " +e.getMessage());
+
+            }
+           finally {
+                try{
+                    Conexion.closeConnection();
+                }catch (Exception e){
+                    System.out.println("error closed connexion " + e.getMessage());
+                }
+        }
+         return false;
     }
 
     public boolean foundById(int id){
         PreparedStatement ps;
+
         Connection connection = Conexion.getConnection();
         String query = " SELECT * FROM traveler WHERE id = ?";
         try{
             ps = connection.prepareStatement(query);
             ps.setInt(1,id);
             ResultSet resultSet = ps.executeQuery();
-            if(resultSet.next()){
-               return  true;
-            } else{
-                return  false;
-            }
+            return  resultSet.next() ;
 
         }catch (SQLException e){
             System.out.println(" error no found id" + e.getMessage());

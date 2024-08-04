@@ -65,6 +65,14 @@ public class Main {
                     travelerController.read();
                     break;
                 case 3:
+                    int idUpdate = Integer.parseInt(JOptionPane.showInputDialog(" ingresa el id"));
+                    String namenew =JOptionPane.showInputDialog("insert name");
+                    String lastNameNEw = JOptionPane.showInputDialog("insert lastname");
+                    Traveler travelerNew = new Traveler();
+                    travelerNew.setId(idUpdate);
+                    travelerNew.setName(namenew);
+                    travelerNew.setLastName(lastNameNEw);
+                    travelerController.update(travelerNew);
                     break;
                 case 4:
                     break;
