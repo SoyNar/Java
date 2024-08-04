@@ -23,7 +23,7 @@ public class AirplaneModel implements IAirplaneModel {
 
         String query = "INSERT INTO airplane(model,length) VALUES (?, ?)";
         try{
-            ps = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(query);
             ps.setString(1, object.getModel());
             ps.setInt(2,object.getLenght());
 

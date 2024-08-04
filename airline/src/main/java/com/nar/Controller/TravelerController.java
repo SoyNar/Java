@@ -24,4 +24,8 @@ public class TravelerController {
             JOptionPane.showMessageDialog(null,"no update");
         }
     }
+
+    public void delete(Integer id){
+        this.iTraveler.delete(id);
+    }
 }

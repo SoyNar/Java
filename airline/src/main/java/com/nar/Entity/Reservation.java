@@ -56,4 +56,13 @@ public class Reservation {
     public void setTravlerId(int travlerId) {
         this.travlerId = travlerId;
     }
+
+    @Override
+    public String toString() {
+
+        return   "id:" + id +
+                " Number seat: " + seatNumber +
+                " flight number : " + flightId +
+                " Traveler number :" + travlerId;
+    }
 }

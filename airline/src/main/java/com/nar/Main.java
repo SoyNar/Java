@@ -75,6 +75,8 @@ public class Main {
                     travelerController.update(travelerNew);
                     break;
                 case 4:
+                    int idDelete = Integer.parseInt(JOptionPane.showInputDialog("insert id to delete"));
+                    travelerController.delete(idDelete);
                     break;
                 case 5:
                     break;
@@ -135,7 +137,7 @@ AirFlightController airFlightController = new AirFlightController();
     public static  void reservation(){
         int option;
         ReservationController reservationController = new ReservationController();
-
+        Reservation reservation2 = new Reservation();
 
 
 
@@ -152,10 +154,19 @@ AirFlightController airFlightController = new AirFlightController();
                     break;
 
                 case 2:
+                    reservationController.read(reservation2);
                     break;
                 case 3:
+                    int idUpdate = Integer.parseInt(JOptionPane.showInputDialog(" insert to id update"));
+                    int setaNumberN= Integer.parseInt(JOptionPane.showInputDialog( "inser seat number"));
+                    int numberFlight= Integer.parseInt(JOptionPane.showInputDialog( "inser seat number"));
+                    int travelerId= Integer.parseInt(JOptionPane.showInputDialog( "inser seat number"));
+                    Reservation reservation1 = new Reservation(idUpdate,setaNumberN,numberFlight,travelerId);
+
                     break;
                 case 4:
+                    Integer idDelete = Integer.valueOf(JOptionPane.showInputDialog("inser id to delete"));
+                    reservationController.delete(idDelete);
                     break;
                 case 5:
                     break;

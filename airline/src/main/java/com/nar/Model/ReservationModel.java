@@ -9,47 +9,34 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationModel implements IReservationModel {
     @Override
     public Reservation create(Reservation object) {
+
+        boolean ocuppied = ocuppiedSeat(object.getSeatNumber(), object.getFlightId());
+
         PreparedStatement ps;
         Connection connection = Conexion.getConnection();
         ResultSet resultSet;
-// validate passenger availability
 
-        String query = "SELECT COUNT(*) FROM reservation WHERE traveler_id = ? AND flight_id = ?";
+        if(ocuppied){
+            System.out.println(" asiento ocupado");
+            return null;
+        }
+
         try{
-            ps = connection.prepareStatement(query);
-            ps.setInt(1,object.getTravlerId());
-            ps.setInt(2, object.getFlightId());
-            resultSet = ps.executeQuery();
-            resultSet.next();
-            int checkAvailability = resultSet.getInt(1);
-            if(checkAvailability >0){
-                System.out.println("passenger already has reservations ");
-            }
-            String query2 = "SELECT COUNT(*) FROM reservation WHERE flight_id = ? AND seatNumber = ? ";
-            ps.setInt(1, object.getFlightId());
-            ps.setInt(2,object.getSeatNumber());
-            resultSet.next();
-            int seatNoAvaliable = resultSet.getInt(1);
-            if(seatNoAvaliable >0){
-                System.out.println("seat already has reservation");
-                return null;
 
-            }
 
             String query3 = "INSERT INTO reservation (seatNumber,flight_id,traveler_id) VALUES (?, ?, ?)";
             ps = connection.prepareStatement(query3,PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setInt(1,object.getFlightId());
-            ps.setInt(2,object.getSeatNumber());
-              ps.setInt(3, object.getTravlerId());
+            ps.setInt(1,object.getSeatNumber());
+            ps.setInt(2,object.getFlightId());
+            ps.setInt(3, object.getTravlerId());
 
-            ps.execute();
-
-
+            ps.executeUpdate();
             ResultSet resultSet1 = ps.getGeneratedKeys();
             if (resultSet1.next()) {
                 object.setId(resultSet1.getInt(1));
@@ -73,17 +60,105 @@ public class ReservationModel implements IReservationModel {
     }
 
     @Override
-    public void delete(Integer integer) {
+    public void delete(Integer id) {
+        PreparedStatement ps;
+        Connection connection = Conexion.getConnection();
+        String query = "DELETE FROM reservation WHERE id = ?";
+        try{
+            ps = connection.prepareStatement(query);
+            ps.setInt(1,id);
+           int delete =  ps.executeUpdate();
+           if(delete > 0){
+               System.out.println("deleted");
+           }else{
+               System.out.println(" id no found");
+           }
+
+        }catch (SQLException e){
+            System.out.println(" error delete reservation " + e.getMessage());
+        }
+        finally {
+            try{
+                Conexion.closeConnection();
+            }catch (Exception e){
+                System.out.println("erro closed conexion " + e.getMessage());
+            }
+        }
 
     }
 
     @Override
     public List<Reservation> read() {
-        return null;
+        List<Reservation> listReservation = new ArrayList<>();
+        PreparedStatement ps;
+        Connection connection = Conexion.getConnection();
+        String query = "SELECT * FROM reservation";
+        try{
+            ps = connection.prepareStatement(query);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()){
+                Reservation reservation = new Reservation();
+                reservation.setId(resultSet.getInt("id"));
+                reservation.setSeatNumber(resultSet.getInt("seatNumber"));
+                reservation.setFlightId(resultSet.getInt("flight_id"));
+                reservation.setTravlerId(resultSet.getInt("traveler_id"));
+                listReservation.add(reservation);
+            }
+        }catch (SQLException e){
+            System.out.println(" error to red reservation " + e.getMessage());
+        }
+
+        return listReservation;
     }
 
     @Override
     public boolean update(Reservation object) {
+        PreparedStatement ps;
+        Connection connection = Conexion.getConnection();
+        String  query = " UPDATE reservation SET seatNumber = ?,flight_id = ?, traveler_id = ? WHERE idi = ? ";
+        try{
+            ps = connection.prepareStatement(query);
+            ps.setInt(1,object.getSeatNumber());
+            ps.setInt(2,object.getFlightId());
+            ps.setInt(3,object.getTravlerId());
+            ps.setInt(4, object.getId());
+
+            int update = ps.executeUpdate();
+            if(update > 0){
+                System.out.println(" updated");
+            }else {
+                System.out.println(" id no found");
+            }
+
+        }catch (SQLException e){
+            System.out.println(" error to update elemnt " + e.getMessage());
+        }finally {
+            try{
+                Conexion.closeConnection();
+            }catch (Exception e){
+                System.out.println("error to closed conexion " + e.getMessage());
+            }
+        }
         return false;
+    }
+
+    public boolean ocuppiedSeat(int numberSeat, int numberFilgth) {
+
+        PreparedStatement ps;
+        Connection connection = Conexion.getConnection();
+        String query = "SELECT COUNT(*) FROM reservation WHERE seatNumber = ? AND flight_id = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, numberSeat);
+            ps.setInt(2,numberFilgth);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1)>0;
+            }
+        } catch (SQLException e) {
+            System.out.println(" error to select element " + e.getMessage());
+        }
+                Conexion.closeConnection();
+        return  false;
     }
 }
