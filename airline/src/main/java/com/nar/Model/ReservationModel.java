@@ -1,5 +1,6 @@
 package com.nar.Model;
 
+import com.nar.Entity.Airplane;
 import com.nar.Entity.Reservation;
 import com.nar.Persistence.Conexion.Conexion;
 import com.nar.Persistence.IModel.IReservationModel;
@@ -15,8 +16,11 @@ import java.util.List;
 public class ReservationModel implements IReservationModel {
     @Override
     public Reservation create(Reservation object) {
+     Airplane airplane = new Airplane();
+
 
         boolean ocuppied = ocuppiedSeat(object.getSeatNumber(), object.getFlightId());
+
 
         PreparedStatement ps;
         Connection connection = Conexion.getConnection();
@@ -26,10 +30,12 @@ public class ReservationModel implements IReservationModel {
             System.out.println(" asiento ocupado");
             return null;
         }
-
+        if(getNumberReservation(object.getId()) >= airplane.getLenght()){
+            System.out.println("capacidad maxima");
+            return null;
+        }
+        
         try{
-
-
             String query3 = "INSERT INTO reservation (seatNumber,flight_id,traveler_id) VALUES (?, ?, ?)";
             ps = connection.prepareStatement(query3,PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1,object.getSeatNumber());
@@ -110,7 +116,7 @@ public class ReservationModel implements IReservationModel {
 
         return listReservation;
     }
-
+// method update
     @Override
     public boolean update(Reservation object) {
         PreparedStatement ps;
@@ -142,6 +148,8 @@ public class ReservationModel implements IReservationModel {
         return false;
     }
 
+
+    // validation seat occupied
     public boolean ocuppiedSeat(int numberSeat, int numberFilgth) {
 
         PreparedStatement ps;
@@ -161,4 +169,26 @@ public class ReservationModel implements IReservationModel {
                 Conexion.closeConnection();
         return  false;
     }
+
+    public int getNumberReservation(int id)  {
+        PreparedStatement ps;
+        Connection connection = Conexion.getConnection();
+
+        String query = "SELECT COUNT(*)  total FROM reservation WHERE flight_id = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1,id);
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next()){
+                return resultSet.getInt("total");
+            }
+
+        }catch (SQLException e){
+            System.out.println(" error connect db " + e.getMessage());
+        }
+        Conexion.closeConnection();
+
+        return 0;
+    }
+
 }

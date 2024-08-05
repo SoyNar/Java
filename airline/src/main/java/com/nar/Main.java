@@ -33,7 +33,8 @@ public class Main {
                 2. List airplane
                 3. Update airplane
                 4. delete airplane
-                5. exit
+                5. capacity
+                6. exit
                 """);
     }
 
@@ -169,12 +170,15 @@ AirFlightController airFlightController = new AirFlightController();
                     reservationController.delete(idDelete);
                     break;
                 case 5:
+                    int idReserv = Integer.parseInt(JOptionPane.showInputDialog("inser id"));
+                    reservationController.capacityReservation(idReserv);
+                case 6:
                     break;
 
                 default:
                     break;
             }
-        }while(option!=5);
+        }while(option!=6);
 
     }
     public static  void mainMenu (){
@@ -196,7 +200,8 @@ AirFlightController airFlightController = new AirFlightController();
                 2. List airplane
                 3. update airplane
                 4. delete airplane
-                5. exit
+                5. Read count flitghts
+                6. exit
                 """);
     }
     public static void airplane(){
@@ -218,24 +223,27 @@ AirFlightController airFlightController = new AirFlightController();
                     airplaneController.read();
                     break;
                 case 3:
-                    int idDelete = Integer.parseInt(JOptionPane.showInputDialog("insert id ariplane"));
-                    airplaneController.delete(idDelete);
-                    break;
-                case 4:
                     int idUpdate = Integer.parseInt(JOptionPane.showInputDialog("insert id to update"));
                     String models = JOptionPane.showInputDialog("inser new model");
                     int length = Integer.parseInt(JOptionPane.showInputDialog("insert the capacity"));
                     Airplane airplaneUpdate = new Airplane(idUpdate, models,length);
                     airplaneController.update(airplaneUpdate);
                     break;
+                case 4:
+                    int idDelete = Integer.parseInt(JOptionPane.showInputDialog("insert id ariplane"));
+                    airplaneController.delete(idDelete);
+                    break;
                 case 5:
+                    airplaneController.capacity();
+                    break;
+                case 6:
                     System.out.println("exiting the system");
                     break;
                 default:
                     System.out.println("option invalid");
                     break;
             }
-        }while (option != 5);
+        }while (option != 6);
     }
     public static void main(String[] args) throws ParseException {
 

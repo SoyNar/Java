@@ -23,7 +23,7 @@ public class AirplaneModel implements IAirplaneModel {
 
         String query = "INSERT INTO airplane(model,length) VALUES (?, ?)";
         try{
-            ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, object.getModel());
             ps.setInt(2,object.getLenght());
 
@@ -168,4 +168,27 @@ public class AirplaneModel implements IAirplaneModel {
 
         return false;
     }
+
+
+//    public Integer capacity() {
+//        PreparedStatement ps;
+//        Connection connection = Conexion.getConnection();
+//        String query = "SELECT COUNT(length) AS total_length FROM airplane";
+//        try {
+//            ps = connection.prepareStatement(query);
+//            ResultSet resultSet = ps.executeQuery();
+//            if (resultSet.next()) {
+//                return resultSet.getInt("total_length");
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Error al obtener la capacidad: " + e.getMessage());
+//        } finally {
+//            try {
+//                Conexion.closeConnection();
+//            } catch (Exception e) {
+//                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+//            }
+//        }
+//        return null;
+//    }
 }

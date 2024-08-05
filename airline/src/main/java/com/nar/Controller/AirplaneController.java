@@ -28,4 +28,9 @@ public class AirplaneController  {
        return  this.iAirplaneModel.update(object);
   }
 
+    public  void capacity (){
+        AirplaneModel airplane = new AirplaneModel();
+    }
+
 }
+
