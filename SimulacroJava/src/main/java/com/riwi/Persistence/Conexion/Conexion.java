@@ -10,10 +10,10 @@ public class Conexion {
     static Connection connection = null;
 
     public static Connection getConnection(){
-        String nameDatabase = "contrataciones";
-        String url = "jdbc:mysql://localhost:3306/contrataciones";
+        String nameDatabase = "contratacion";
+        String url = "jdbc:mysql://localhost:3306/contratacion";
         String user = "root";
-        String password = "Rlwl2023.";
+        String password = "tuclave";
 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");

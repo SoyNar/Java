@@ -36,12 +36,42 @@ public class CoderModel implements ICoder {
             }
         }catch (SQLException e){
             System.out.println("error create coder " + e.getMessage());
+        } finally {
+            try{
+                Conexion.closedConnection();
+            }catch (Exception e){
+                System.out.println(" error to closed connection " +e.getMessage());
+            }
         }
         return object;
     }
 
     @Override
-    public void delete(Integer integer) {
+    public void delete(Integer id) {
+        PreparedStatement ps;
+        Connection connection = Conexion.getConnection();
+        String query = " DELETE coder WHERE id = ?";
+
+        try{
+            ps = connection.prepareStatement(query);
+            ps.setInt(1,id);
+            int delete = ps.executeUpdate();
+            if(delete == 1){
+                System.out.println(" deleted");
+            } else {
+                System.out.println(" id no found");
+            }
+
+        }catch ( SQLException e){
+            System.out.println( "error to delete coder " + e.getMessage());
+        } finally {
+            try{
+                Conexion.closedConnection();
+
+            }catch (Exception e){
+                System.out.println( " error to conect conexion" +e.getMessage());
+            }
+        }
 
     }
 
@@ -63,7 +93,7 @@ public class CoderModel implements ICoder {
                 coderNuevo.setClan(resultSet.getString("clan"));
                 coderNuevo.setCohorte(resultSet.getString("cohorte"));
                 coderNuevo.setTecnology(resultSet.getString("tecnologia"));
-                coderNuevo.setTecnology(resultSet.getString("documento"));
+                coderNuevo.setIdDocument(resultSet.getString("documento"));
                 listaCoders.add(coderNuevo);
             }
         }catch (SQLException e){

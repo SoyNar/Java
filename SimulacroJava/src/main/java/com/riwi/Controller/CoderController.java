@@ -22,5 +22,10 @@ public class CoderController {
         this.iCoder.update(coder);
     }
 
+  public  void delete(int id){
+        this.iCoder.delete(id);
+  }
+
+
 
 }

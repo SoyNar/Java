@@ -92,7 +92,7 @@ public class Coder {
                 " clan : " + clan +
                 " tecnologia :" + tecnology +
                 " cohorte :" + cohorte +
-                " Documento: " + idDocument;
+                " Documento: " + getIdDocument();
 
     }
 }
