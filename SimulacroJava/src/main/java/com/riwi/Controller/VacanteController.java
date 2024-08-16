@@ -4,11 +4,17 @@ import com.riwi.Entitys.Vacante;
 import com.riwi.Model.VacanteModel;
 import com.riwi.Persistence.IModel.IVacante;
 
+import javax.swing.*;
 import java.util.List;
 
 public class VacanteController {
 
     IVacante iVacante = new VacanteModel();
+
+    public void read(){
+        List<Vacante> listVacante = this.iVacante.read();
+        JOptionPane.showMessageDialog(null,listVacante.toString());
+    }
     public void create(Vacante vacante){
         this.iVacante.cread(vacante);
     }

@@ -13,38 +13,42 @@ import java.util.List;
 public class VacanteModel implements IVacante {
     @Override
     public Vacante cread(Vacante object) {
+
+        if(!validateStatus(object.getStatus())){
+            System.out.println(" error debe ser Activo o Inactivo");
+            return null;
+        }
         PreparedStatement ps;
         Connection connection = Conexion.getConnection();
         String query = " INSERT INTO vacante (titulo,estado,salacio,descripcion,tecnologia,empresa_id) VALUES(?, ?, ?, ?, ?, ?)";
 
-        try{
+        try {
             ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1,object.getTitulo());
-            ps.setInt(2,object.getStatus().ordinal());
-            ps.setDouble(3,object.getSalario());
-            ps.setString(4,object.getDescripcion());
-            ps.setString(5,object.getTecnologia());
-            ps.setInt(6,object.getEmpresaID());
+            ps.setString(1, object.getTitulo());
+            ps.setString(2,object.getStatus().name());
+            ps.setDouble(3, object.getSalario());
+            ps.setString(4, object.getDescripcion());
+            ps.setString(5, object.getTecnologia());
+            ps.setInt(6, object.getEmpresaID());
 
             int create = ps.executeUpdate();
-            if(create == 1){
+            if (create == 1) {
                 ResultSet resultSet = ps.getGeneratedKeys();
-                if(resultSet.next()){
+                if (resultSet.next()) {
                     System.out.println(" created");
                     object.setId(resultSet.getInt(1));
                 }
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(" error to insert vacante" + e.getMessage());
-        }finally {
+        } finally {
             try {
                 Conexion.closedConnection();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(" error to closed conexion" + e.getMessage());
             }
         }
-
         return null;
     }
 
@@ -106,6 +110,7 @@ public class VacanteModel implements IVacante {
 
     @Override
     public Vacante update(Vacante object) {
+
         PreparedStatement ps;
         Connection connection = Conexion.getConnection();
         String query= "UPDATE vacante SET titulo = ?, descripcion = ?, salario = ?, tecnologia = ?, estado = ?, empresa_id = ? WHERE id = ?";
@@ -135,5 +140,9 @@ public class VacanteModel implements IVacante {
             }
         }
         return null;
+    }
+
+    public boolean validateStatus(Estado estado){
+       return  estado == Estado.Activo || estado == Estado.Inactivo;
     }
 }

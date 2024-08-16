@@ -86,13 +86,13 @@ public class Coder {
 
     @Override
     public String toString() {
-        return   "id : " + id +
-                "name :" +name +
-                " Lastname :" + lastname +
-                " clan : " + clan +
-                " tecnologia :" + tecnology +
-                " cohorte :" + cohorte +
-                " Documento: " + getIdDocument();
+        return   "id : \n " + id +
+                " name :\n " +name +
+                " Lastname \n: " + lastname +
+                " clan : \n " + clan +
+                " tecnologia \n: " + tecnology +
+                " cohorte \n: " + cohorte +
+                " Documento \n: " + getIdDocument();
 
     }
 }

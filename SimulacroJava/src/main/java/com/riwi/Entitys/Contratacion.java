@@ -41,4 +41,12 @@ public class Contratacion {
     public void setVacanteId(int vacanteId) {
         this.vacanteId = vacanteId;
     }
+
+
+    @Override
+    public String toString() {
+        return "id:" + id +
+                " Coder id: "+ coderId +
+                " vacante id: " + vacanteId;
+    }
 }
