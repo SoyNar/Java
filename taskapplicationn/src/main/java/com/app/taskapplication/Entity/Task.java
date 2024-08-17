@@ -26,7 +26,7 @@ public class Task {
     @Column(name = "title",nullable = false)
     private String title;
     private String description;
-    private LocalDate dateCreation;
-    private LocalTime Hour;
+    private LocalDate dateCreation; //AAAA-MM-DD
+    private LocalTime Hour;//00:00:00
     private  String state;
 }

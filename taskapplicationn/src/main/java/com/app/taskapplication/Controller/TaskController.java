@@ -15,7 +15,8 @@ import java.util.List;
 
 @Controller
 public class TaskController {
-    private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(TaskController.class);
     @Autowired
     ServiceTask serviceTask;
 
@@ -27,7 +28,12 @@ public class TaskController {
         // imprimos a consola
         listTask.forEach((task) -> logger.info(task.toString()));
         model.put("listTask",listTask);
-        return "index";
+        return "index"; // redireccionar a la vista
+    }
+
+    @GetMapping("/add")
+    public  String showAdd( ){
+      return "addTask";
     }
 
 
