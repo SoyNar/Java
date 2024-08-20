@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -33,18 +34,38 @@ public class TaskController {
         return "index"; // redireccionar a la vista
     }
 
+    // mostrar la pagina de agregar
     @GetMapping("/add")
     public  String showAdd( ){
       return "addTask";
     }
 
     // post
-    @PostMapping("/add")
-    public  String add(@ModelAttribute("contactForm") Task task){
+    // agregar una tarea
+    // mapeando una peticion http post
+    @PostMapping("/addT")
+    public  String add(@ModelAttribute("taskForm") Task task){
         logger.info("task add " + task);
         serviceTask.saveTask(task);
         return "redirect:/";
 
+    }
+    // mostrar pagina update
+    @GetMapping("/update/{id}")
+    public String showUpdate(@PathVariable (value = "id")Long idTask,
+                             ModelMap model){
+         Task task = serviceTask.findTaskById(idTask);
+         logger.info("task update :" + task);
+         model.put("task", task);
+         return "update";
+    }
+
+    // editar una tarea
+    @PostMapping("/update")
+    public String update(@ModelAttribute("task")  Task task){
+        logger.info("task update" + task);
+        serviceTask.saveTask(task);
+        return "redirect:/"; // redirigimos al path de inicio
     }
 
 }

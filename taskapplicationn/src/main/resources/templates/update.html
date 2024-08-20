@@ -8,34 +8,35 @@
 <body>
 
 <div class="container text-center " style="margin:30px">
-    <h3>Add Task</h3>
+    <h3>Update Task</h3>
 
 </div>
 <div class="container">
-    <form action="/addT" modelAttribute="taskForm" method="post">
+    <form action="/update" th:object="${task}" method="post">
+        <input type="hidden" th:field="*{id}"/>
         <div class="mb-3">
             <label for="title" class="form-label">Name</label>
-            <input type="text" class="form-control" id="title"  name="title" required="true">
+            <input type="text" class="form-control" id="title"  name="title" required="true" th:field="*{title}">
 
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" id="description"  name="description" required="true">
+            <input type="text" class="form-control" id="description"  name="description" required="true" th:field="*{description}">
 
         </div>
         <div class="mb-3">
             <label for="dateCreation" class="form-label">Date</label>
-            <input type="text" class="form-control" id="dateCreation" name="dateCreation" required="true">
+            <input type="text" class="form-control" id="dateCreation" name="dateCreation" required="true" th:field="*{dateCreation}">
 
         </div>
         <div class="mb-3">
             <label for="hour" class="form-label">Hour</label>
-            <input type="text" class="form-control" id="hour" name="hour" required="true">
+            <input type="text" class="form-control" id="hour" name="hour" required="true" th:field="*{hour}">
 
         </div>
         <div class="mb-3">
             <label for="state" class="form-label">Status</label>
-            <input type="text" class="form-control" id="state" name="state" required="true">
+            <input type="text" class="form-control" id="state" name="state" required="true" th:field="*{state}">
         </div>
        <div>
            <button type="submit" class="btn btn-primary me-3">Add</button>

@@ -45,6 +45,7 @@
                 <th scope="col">DateCreation</th>
                 <th scope="col">HourCreation</th>
                 <th scope="col">State</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -55,6 +56,12 @@
                 <td th:text="${task.dateCreation}">18-01-2025</td>
                 <td th:text="${task.hour}">18:12:00</td>
                 <td th:text="${task.State}">State</td>
+                <td  class="text-center">
+                    <div class="container">
+                        <a th:href="@{/update/{id}(id=${task.id})}"
+                        class="btn btn-warning btn-sm me-3">update</a>
+                    </div>
+                </td>
 
             </tr>
             </tbody>
