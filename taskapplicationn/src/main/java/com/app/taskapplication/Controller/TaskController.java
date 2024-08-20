@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class TaskController {
         List<Task> listTask = serviceTask.listTask();
         // imprimos a consola
         listTask.forEach((task) -> logger.info(task.toString()));
-        model.put("listTask",listTask);
+        model.put("listTask",listTask); // compartir informacion con nuestra presentacion
         return "index"; // redireccionar a la vista
     }
 
@@ -36,5 +38,13 @@ public class TaskController {
       return "addTask";
     }
 
+    // post
+    @PostMapping("/add")
+    public  String add(@ModelAttribute("contactForm") Task task){
+        logger.info("task add " + task);
+        serviceTask.saveTask(task);
+        return "redirect:/";
+
+    }
 
 }

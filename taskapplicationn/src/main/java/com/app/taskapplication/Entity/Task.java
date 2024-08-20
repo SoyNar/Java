@@ -27,6 +27,6 @@ public class Task {
     private String title;
     private String description;
     private LocalDate dateCreation; //AAAA-MM-DD
-    private LocalTime Hour;//00:00:00
+    private LocalTime hour;//00:00:00
     private  String state;
 }
