@@ -14,5 +14,7 @@ public interface IServiceTask {
 
     public void deleteTask (Task task);
 
+//    public List<Task> findByName(String name);
+
 
 }

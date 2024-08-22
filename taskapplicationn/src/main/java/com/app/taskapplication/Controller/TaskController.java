@@ -52,7 +52,7 @@ public class TaskController {
     public String showUpdate(@PathVariable (value = "id")Long idTask,
                              ModelMap model){
          Task task = serviceTask.findTaskById(idTask);
-         logger.info("task update :" + task);
+         logger.info("task update+ :" + task);
          model.put("task", task);
          return "update";
     }
@@ -72,5 +72,6 @@ public class TaskController {
         serviceTask.deleteTask(task);
         return "redirect:/";
     }
+
 
 }
