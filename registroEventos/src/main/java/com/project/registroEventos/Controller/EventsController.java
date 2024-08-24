@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.NotActiveException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 //http://localhost8080/api_events/
@@ -80,7 +83,23 @@ public class EventsController {
         return ResponseEntity.ok(eventy);
     }
 
-    //
+    //borrar un evento
+
+    // http://localhost:8080/api_events/events/159d1838-8406-40c0-a7b4-1eaf8931cc88
+    @DeleteMapping("/events/{id}")
+    public ResponseEntity<Map<String,Boolean>>
+    deleteEvent(@PathVariable String id){
+        Events event = this.eventsService.readById(id);
+        // validacion antes de eliminar
+        if(event == null)
+            throw new NoFoundException((" no found id: " + id));
+        this.eventsService.delete(id);
+        // respuesta generada tipo json
+        //{delete: true}
+        Map<String, Boolean> responde = new HashMap<>();
+        responde.put("Deleted", Boolean.TRUE);
+        return  ResponseEntity.ok(responde);
+    }
 
 
 }
